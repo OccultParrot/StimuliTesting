@@ -1,0 +1,62 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+' Defining some variables we will need to in the final project.
+
+flashCount VAR Byte ' The amount of flashes that WILL occur.
+flash VAR Byte ' The amount of flashes that HAVE occured
+flashLength VAR Byte ' The length of time the light stays on during a flash.
+timeInSeconds VAR Word ' The total amount of seconds flashes will occur in
+
+' Setting the amount of time the flashes will occur
+timeInSeconds = 5
+' Setting the amount of flashes that will occur
+flashCount = 23
+' Setting the amount of time the Indicator Light stays on
+flashLength = 50
+
+' Flashing the Start/End Indicator Light to make sure the user knows its starting
+FOR flash = 1 TO 3
+  HIGH 12
+  PAUSE 1000
+  LOW 12
+  PAUSE 1000
+NEXT
+
+' ### Count down ###
+' RED
+HIGH 3
+PAUSE 1000
+' YELLOW
+HIGH 2
+PAUSE 1000
+' GREEN
+HIGH 1
+PAUSE 1000
+
+' Turning countdown and start alert lights off
+LOW 12
+LOW 1
+LOW 2
+LOW 3
+
+FOR flash = 1 TO flashCount
+  ' Tells you what the last flash number was
+  DEBUG ? flash
+
+  ' Turning on Indicator Light (RED)
+  HIGH 15
+
+  PAUSE flashLength
+
+  'Indicator Light off (RED)
+  LOW 15
+
+  ' Pausing for the amount of seconds divided by the total flashes, minus the time the Indicator Light is on
+  PAUSE (timeInSeconds * 1000 / flashCount) - flashLength
+NEXT
+
+' End Indicator Light off (YELLOW)
+HIGH 12
+
+END
